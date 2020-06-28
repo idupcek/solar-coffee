@@ -14,5 +14,4 @@ namespace SolarCoffee.Data.Models
 
         public CustomerAddress PrimaryAddress { get; set; }
     }
-
 }

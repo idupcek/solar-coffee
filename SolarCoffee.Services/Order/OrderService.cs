@@ -13,13 +13,13 @@ namespace SolarCoffee.Services.Order
     public class OrderService : IOrderService
     {
         private readonly SolarDbContext _db;
-        private readonly ILogger _logger;
+        private readonly ILogger<OrderService> _logger;
         private readonly IProductService _productService;
         private readonly IInventoryService _inventoryService;
 
         public OrderService(
             SolarDbContext db, 
-            ILogger logger, 
+            ILogger<OrderService> logger, 
             IProductService productService,
             IInventoryService inventoryService)
         {

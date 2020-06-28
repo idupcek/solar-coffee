@@ -19,7 +19,7 @@ namespace SolarCoffee.Services.Customer
         /// Returns a list of Customers from the database
         /// </summary>
         /// <returns>List<Customer></returns>
-        public List<Data.Models.Customer> GetAllCustomer()
+        public List<Data.Models.Customer> GetAllCustomers()
         {
             return _db.Customers
                 .Include(c => c.PrimaryAddress)
@@ -42,12 +42,19 @@ namespace SolarCoffee.Services.Customer
         /// </summary>
         /// <param name="id">Customer instance</param>
         /// <returns>ServiceResponse<Customer></returns>
-        public ServiceResponse<Data.Models.Customer> CreateCustomers(Data.Models.Customer customer)
+        public ServiceResponse<Data.Models.Customer> CreateCustomer(Data.Models.Customer customer)
         {
             try
             {
+                _db.CustomersAddresses.Add(customer.PrimaryAddress);
+
                 _db.Customers.Add(customer);
+
+                //var address = customer.PrimaryAddress;
+                //_db.CustomersAddresses.Add(address);
+
                 _db.SaveChanges();
+
                 return new ServiceResponse<Data.Models.Customer>
                 {
                     IsSuccess = true,
