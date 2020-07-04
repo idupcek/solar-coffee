@@ -43,9 +43,10 @@
       text-align: left;
     }
 
-    * {
-      margin: 0;
-    }
+
+    //* {
+    //  margin: 0;
+    //}
 
     a {
       text-decoration: none;

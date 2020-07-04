@@ -9,8 +9,8 @@
 
         <select v-model="selectedProduct" class="shipmentItems" id="product">
             <option disabled value="">Please select one</option>
-            <option v-for="item in inventory" :value="item" :key="item.product.id">
-                {{ item.product.name }}
+            <option v-for="item in inventory" :value="item.product" :key="item.product.id">
+                PId: {{item.product.id}} - {{ item.product.name }}
             </option>
         </select>
 
@@ -21,7 +21,7 @@
       <template v-slot:footer>
         <solar-button
             type="button"
-            @click.native="save"
+            @button:click="save"
             aria-label="save new shipment"
         >
             Save Received Shipment
@@ -30,7 +30,7 @@
         <!--listening to button:click-->
         <solar-button
             type="button"
-            @click.native="close"
+            @button:click="close"
             aria-label="Close modal"
         >
             Close

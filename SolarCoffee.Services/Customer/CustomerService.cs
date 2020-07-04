@@ -50,9 +50,6 @@ namespace SolarCoffee.Services.Customer
 
                 _db.Customers.Add(customer);
 
-                //var address = customer.PrimaryAddress;
-                //_db.CustomersAddresses.Add(address);
-
                 _db.SaveChanges();
 
                 return new ServiceResponse<Data.Models.Customer>

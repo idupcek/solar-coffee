@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SolarCoffee.Data.Models;
 using SolarCoffee.Services.Product;
 using SolarCoffee.Web.Serialization;
+using SolarCoffee.Web.ViewModels;
 using System;
 using System.Linq;
 
@@ -20,6 +21,29 @@ namespace SolarCoffee.Web.Controllers
             _productService = productService; 
         }
 
+        /// <summary>
+        /// Adds a new product
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        [HttpPost("/api/product")]
+        public ActionResult AddProduct ([FromBody] ProductModel product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _logger.LogInformation("Adding product");
+            var newProduct = ProductMapper.SerializeProductModel(product);
+            var newProductResponse = _productService.CreateProduct(newProduct);
+            return Ok(newProductResponse);
+        }
+
+        /// <summary>
+        /// Returns all products
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("/api/product")]
         public ActionResult GetProduct()
         {
@@ -34,24 +58,17 @@ namespace SolarCoffee.Web.Controllers
             return Ok(productViewModel);
         }
 
+        /// <summary>
+        /// Archives an existing product
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPatch("/api/product/{id}")]
         public ActionResult ArchiveProduct(int id)
         {
             _logger.LogInformation("Archiving product");
             var archiveResult = _productService.ArchiveProduct(id);
             return Ok(archiveResult);
-        }
-
-        [HttpPost("/api/product")]
-        public ActionResult CreateCustomer([FromBody] Product product)
-        {
-            _logger.LogInformation("Creating a new customer");
-            product.CreatedOn = DateTime.UtcNow;
-            product.UpdatedOn = DateTime.UtcNow;
-
-            _productService.CreateProduct(product);
-
-            return Ok(product);
         }
     }
 }

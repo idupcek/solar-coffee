@@ -56,9 +56,16 @@ namespace SolarCoffee.Services.Inventory
             var now = DateTime.UtcNow;
             try
             {
-                var inventory = _db.ProductInventories
-                    .Include(inv => inv.Product)
-                    .First(inv => inv.Product.Id == id);
+                var inventories = _db.ProductInventories
+                          .Include(inv => inv.Product).ToList();
+
+                var inventory = inventories.First(inv => inv.Product.Id == id);
+
+
+
+                //var inventory = _db.ProductInventories
+                //    .Include(inv => inv.Product)
+                //    .First(inv => inv.Product.Id == id);
 
                 inventory.QuantityOnHand += adjustment;
 

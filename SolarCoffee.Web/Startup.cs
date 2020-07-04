@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using SolarCoffee.Data;
 using SolarCoffee.Services.Customer;
 using SolarCoffee.Services.Inventory;
@@ -23,7 +24,16 @@ namespace SolarCoffee.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddCors();
+
+            //options for json serialization
+            services.AddControllers().AddNewtonsoftJson(options => 
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                };
+            });
 
             services.AddDbContext<SolarDbContext>(opts =>
             {
@@ -56,6 +66,16 @@ namespace SolarCoffee.Web
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //this needs to be precisely between userRouting and useAuth
+            app.UseCors(builder => builder.WithOrigins(
+                "http://localhost:8080",
+                "http://localhost:8081",
+                "http://localhost:8082")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+            );
 
             app.UseAuthorization();
 

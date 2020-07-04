@@ -38,14 +38,14 @@
       <template v-slot:footer>
         <solar-button
             type="button"
-            @click.native="save"
+            @button:click="save"
             aria-label="save new item"
         >
             Save Product
         </solar-button>
         <solar-button
             type="button"
-            @click.native="close"
+            @button:click="close"
             aria-label="close modal"
         >
             Close
@@ -58,8 +58,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import SolarButton from "@/components/SolarButton.vue";
-import { IProductInventory, IProduct } from '../../types/Product';
 import SolarModal from "@/components/modals/SolarModal.vue";
+import { IProductInventory, IProduct } from '../../types/Product';
 
 @Component({
     name:'NewProductModal',
@@ -75,17 +75,15 @@ export default class ShipmentModal extends Vue {
         name: "",
         price: 0,
         isArchived: false
-    };
+    }
 
     close() {
         this.$emit('close');
     }
 
     save() {
-        this.$emit('save: product', this.newProduct);
+        this.$emit('save:product', this.newProduct);
     }
-
-    
 }
 </script>
 
