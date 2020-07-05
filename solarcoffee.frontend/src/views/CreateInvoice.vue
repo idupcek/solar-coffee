@@ -227,7 +227,8 @@ export default class CreateInvoice extends Vue {
   }
 
   get runningTotal() {
-    return this.lineItems.reduce((a, b) => a + (b['product']['price'] * b['quantity']), 0);
+    return this.lineItems.reduce(
+      (a, b) => a + (b['product']['price'] * b['quantity']), 0);
   }
 
   //methods
